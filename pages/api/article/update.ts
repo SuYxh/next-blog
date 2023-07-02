@@ -26,7 +26,8 @@ async function update(req: NextApiRequest, res: NextApiResponse) {
     where: {
       id,
     },
-    relations: ['user', 'tags'],
+    // relations: ['user', 'tags'],
+    relations: ['user'],
   });
 
   if (article) {
