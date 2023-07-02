@@ -3,7 +3,7 @@ import { User } from './user'
 import { Comment } from './comment'
 import { Tag } from './tag'
 
-@Entity({name: 'articles'})
+@Entity({ name: 'articles' })
 export class Article extends BaseEntity {
   @PrimaryGeneratedColumn()
   readonly id!: number;
@@ -27,14 +27,14 @@ export class Article extends BaseEntity {
   is_delete!: number;
 
   @ManyToOne(() => User)
-  @JoinColumn({name: 'user_id'})
+  @JoinColumn({ name: 'user_id' })
   user!: User;
 
-  @ManyToMany(() => Tag, (tag) => tag.articles, {
-    cascade: true
-  })
-  tags!: Tag[]
+  // @ManyToMany(() => Tag, (tag) => tag.articles, {
+  //   cascade: true
+  // })
+  // tags!: Tag[]
 
-  @OneToMany(() => Comment, (comment) => comment.article)
-  comments!: Comment[]
+  // @OneToMany(() => Comment, (comment) => comment.article)
+  // comments!: Comment[]
 }
