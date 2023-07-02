@@ -65,7 +65,7 @@ const Navbar: NextPage = () => {
 
   return (
     <div className={styles.navbar}>
-      <section className={styles.logArea}>Blog-X</section>
+      <section className={styles.logArea}>Blog</section>
       <section className={styles.linkArea}>
         {navs?.map((nav) => (
           <Link key={nav?.label} href={nav?.value}>

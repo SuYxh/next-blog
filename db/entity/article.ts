@@ -35,6 +35,6 @@ export class Article extends BaseEntity {
   // })
   // tags!: Tag[]
 
-  // @OneToMany(() => Comment, (comment) => comment.article)
-  // comments!: Comment[]
+  @OneToMany(() => Comment, (comment) => comment.article)
+  comments!: Comment[]
 }

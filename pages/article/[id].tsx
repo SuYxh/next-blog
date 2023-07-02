@@ -23,8 +23,7 @@ export async function getServerSideProps({ params }: any) {
     where: {
       id: articleId,
     },
-    // relations: ['user', 'comments', 'comments.user'],
-    relations: ['user',],
+    relations: ['user', 'comments', 'comments.user'],
   });
 
   if (article) {
@@ -134,7 +133,7 @@ const ArticleDetail = (props: IProps) => {
                     <div className={styles.date}>
                       {format(
                         new Date(comment?.update_time),
-                        'yyyy-MM-dd hh:mm:ss'
+                        'yyyy-MM-dd HH:mm:ss'
                       )}
                     </div>
                   </div>
