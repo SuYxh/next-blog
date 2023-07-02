@@ -1,6 +1,8 @@
 import styles from './index.module.scss';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import CountDown from 'components/CountDown';
+import { message } from 'antd';
+import request from 'service/fetch';
 
 interface IProps {
   isShow: boolean;
@@ -8,27 +10,50 @@ interface IProps {
 }
 
 const Login = (props: IProps) => {
-  const { isShow = false } = props;
+  const { isShow = false, onClose } = props;
   const [isShowVerifyCode, setIsShowVerifyCode] = useState(false);
   const [form, setForm] = useState({
-    phone: '',
+    phone: '18372635819',
     verify: '',
   });
 
   const handleClose = () => {
-    console.log('handleClose');
+    onClose && onClose();
   };
 
-  const handleFormChange = () => {
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log('handleFormChange');
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
   };
 
   const handleGetVerifyCode = () => {
     console.log('handleGetVerifyCode');
+    if (!form?.phone) {
+      message.warning('请输入手机号');
+      return;
+    }
+
+    request
+      .post('/api/user/sendVerifyCode', {
+        to: form?.phone,
+        templateId: 1,
+      })
+      .then((res: any) => {
+        if (res?.code === 0) {
+          setIsShowVerifyCode(true);
+        } else {
+          message.error(res?.msg || '未知错误');
+        }
+      });
   };
 
   const handleCountDownEnd = () => {
     console.log('handleCountDownEnd');
+    setIsShowVerifyCode(false);
   };
 
   const handleLogin = () => {

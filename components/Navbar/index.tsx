@@ -9,7 +9,7 @@ import Login from 'components/Login';
 
 const Footer: NextPage = () => {
   const { pathname } = useRouter();
-  const [isShowLogin, setIsShowLogin] = useState(true);
+  const [isShowLogin, setIsShowLogin] = useState(false);
 
   const handleGotoEditorPage = () => {
     console.log('handleGotoEditorPage');
