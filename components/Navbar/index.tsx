@@ -9,6 +9,7 @@ import { navs } from './config';
 import Login from 'components/Login';
 import { observer } from 'mobx-react-lite';
 import { useStore } from 'store/index';
+import request from 'service/fetch';
 
 const Navbar: NextPage = () => {
   const store = useStore();
@@ -39,6 +40,11 @@ const Navbar: NextPage = () => {
 
   const handleLogout = () => {
     console.log('handleLogout');
+    request.post('/api/user/logout').then((res: any) => {
+      if (res?.code === 0) {
+        store.user.setUserInfo({});
+      }
+    });
   };
 
   const renderDropDownMenu = () => {
