@@ -30,10 +30,10 @@ export class Article extends BaseEntity {
   @JoinColumn({ name: 'user_id' })
   user!: User;
 
-  // @ManyToMany(() => Tag, (tag) => tag.articles, {
-  //   cascade: true
-  // })
-  // tags!: Tag[]
+  @ManyToMany(() => Tag, (tag) => tag.articles, {
+    cascade: true
+  })
+  tags!: Tag[]
 
   @OneToMany(() => Comment, (comment) => comment.article)
   comments!: Comment[]

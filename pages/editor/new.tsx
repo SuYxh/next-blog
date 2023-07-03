@@ -21,11 +21,11 @@ const NewEditor = () => {
   const [allTags, setAllTags] = useState([]);
 
   useEffect(() => {
-    // request.get('/api/tag/get').then((res: any) => {
-    //   if (res?.code === 0) {
-    //     setAllTags(res?.data?.allTags || [])
-    //   }
-    // })
+    request.get('/api/tag/get').then((res: any) => {
+      if (res?.code === 0) {
+        setAllTags(res?.data?.allTags || [])
+      }
+    })
   }, []);
 
   const handlePublish = () => {

@@ -2,7 +2,7 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTab
 import { User } from './user'
 import { Article } from './article'
 
-@Entity({name: 'tags'})
+@Entity({ name: 'tags' })
 export class Tag extends BaseEntity {
   @PrimaryGeneratedColumn()
   readonly id!: number;

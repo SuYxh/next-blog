@@ -13,6 +13,7 @@ import { IArticle } from 'pages/api';
 
 interface IProps {
   article: IArticle
+  defaultTags: any
 }
 
 export async function getServerSideProps({ params }: any) {
@@ -23,11 +24,12 @@ export async function getServerSideProps({ params }: any) {
     where: {
       id: articleId,
     },
-    relations: ['user'],
+    relations: ['user', 'tags'],
   });
-
+  // console.log('article', article);
   return {
     props: {
+      defaultTags: article?.tags?.map(tag => tag.id),
       article: JSON.parse(JSON.stringify(article)),
     },
   };
@@ -35,20 +37,20 @@ export async function getServerSideProps({ params }: any) {
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
-const ModifyEditor = ({ article }: IProps) => {
+const ModifyEditor = ({ article, defaultTags }: IProps) => {
   const { push, query } = useRouter();
   const articleId = Number(query?.id)
   const [title, setTitle] = useState(article?.title || '');
   const [content, setContent] = useState(article?.content || '');
-  const [tagIds, setTagIds] = useState([]);
+  const [tagIds, setTagIds] = useState(defaultTags || []);
   const [allTags, setAllTags] = useState([]);
 
   useEffect(() => {
-    // request.get('/api/tag/get').then((res: any) => {
-    //   if (res?.code === 0) {
-    //     setAllTags(res?.data?.allTags || [])
-    //   }
-    // })
+    request.get('/api/tag/get').then((res: any) => {
+      if (res?.code === 0) {
+        setAllTags(res?.data?.allTags || [])
+      }
+    })
   }, []);
 
   const handlePublish = () => {
@@ -94,6 +96,7 @@ const ModifyEditor = ({ article }: IProps) => {
         />
         <Select
           className={styles.tag}
+          defaultValue={tagIds}
           mode="multiple"
           allowClear
           placeholder="请选择标签"
