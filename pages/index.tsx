@@ -24,17 +24,16 @@ interface IProps {
 export async function getServerSideProps() {
   const db = await prepareConnection();
   const articles = await db.getRepository(Article).find({
-    // relations: ['user', 'tags'],
-    relations: ['user'],
+    relations: ['user', 'tags'],
   });
-  // const tags = await db.getRepository(Tag).find({
-  //   relations: ['users'],
-  // });
+  const tags = await db.getRepository(Tag).find({
+    relations: ['users'],
+  });
 
   return {
     props: {
       articles: JSON.parse(JSON.stringify(articles)) || [],
-      // tags: JSON.parse(JSON.stringify(tags)) || [],
+      tags: JSON.parse(JSON.stringify(tags)) || [],
     },
   };
 }
@@ -75,10 +74,10 @@ const Home = (props: IProps) => {
         ))}
       </div>
       <div className="content-layout">
-        {showAricles?.map((article, index) => (
+        {showAricles?.map((article) => (
           <>
             {/* <ListItem article={article} /> */}
-            <DynamicComponent key={index} article={article} />
+            <DynamicComponent article={article} />
             <Divider />
           </>
         ))}
